@@ -1,0 +1,31 @@
+<!-- Modal -->
+<div class="modal fade" id="apModal" tabindex="-1" data-keyboard="false" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="tituloModal1" class="modal-title">Aprobación ticket</h5>
+      </div>
+      <div class="modal-body">
+
+        <!-- Permite cambiar el estado de aprobación -->
+        <div id="selectAP">
+        </div>
+        
+
+        <!-- Permite ingresar una nueva observación -->
+        <form style="margin-top:20px">
+          <div class="form-group">
+            <label for="observacion"><span class="badge badge-dark" style="font-size:16px">Observación</span></label>
+            <textarea id="textObs" class="form-control" id="observacion" placeholder="Por favor realice aquí su observación"></textarea>
+          </div>
+        </form>
+
+        
+      </div>
+      <div class="modal-footer" id="btnObs">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarModal" onclick="actObs()">Cerrar</button>
+        <button type="button" class="btn btn-primary" onclick="saveObs()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

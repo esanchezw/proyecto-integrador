@@ -1,0 +1,28 @@
+<!-- Modal -->
+<div class="modal fade" id="obsApModal" tabindex="-1" data-keyboard="false" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="tituloModal" class="modal-title">Observaciones ticket</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="card-body">
+                <div class="card">
+                  <div class="card-header">
+                    Historial de Observaciones
+                  </div>
+                  <!-- Observaciones realizadas -->
+                  <ul id="listaObs" class="list-group list-group-flush">
+                    <div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>
+                  </ul>
+                </div>
+
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarModal" onclick="actObs()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

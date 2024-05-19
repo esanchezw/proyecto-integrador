@@ -1,0 +1,49 @@
+<!-- Modal -->
+<div class="modal fade" id="obsModal" tabindex="-1" data-keyboard="false" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="tituloModal" class="modal-title">Observaciones ticket</h5>
+      </div>
+      <div class="modal-body">
+
+        <!-- Permite desplegar las observaciones realizadas -->
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h2 class="mb-0">
+                <button class="btn segObs btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <i class="fas fa-play"></i>&nbspSeguimiento Observaciones
+                </button>
+              </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body">
+                <div class="card">
+                  <!-- Observaciones realizadas -->
+                  <ul id="listaObs" class="list-group list-group-flush">
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permite ingresar una nueva observación -->
+        <form style="margin-top:20px">
+          <div class="form-group">
+            <label for="observacion"><span class="badge badge-dark" style="font-size:16px">Nueva observación</span></label>
+            <textarea id="textObs" class="form-control" id="observacion" placeholder="Por favor realice aquí su observación"></textarea>
+          </div>
+        </form>
+
+        
+      </div>
+      <div class="modal-footer" id="btnObs">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarModal" onclick="actObs()">Cerrar</button>
+        <button type="button" class="btn btn-primary" onclick="saveObs()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

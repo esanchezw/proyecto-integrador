@@ -1,0 +1,55 @@
+<script>
+
+const filasPorPagina = 2;
+let paginaActual = 1;
+
+const mostrarPaginacion = () => {
+  const tabla = document.getElementById("tab");
+  const filas = tabla.getElementsByTagName("tr");
+  const paginacion = document.getElementById("paginacion");
+
+  // Ocultar todas las filas
+  for (let i = 0; i < filas.length; i++) {
+    filas[i].style.display = "none";
+  }
+
+  // Mostrar las filas de la página actual
+  for (
+    let i = (paginaActual - 1) * filasPorPagina;
+    i < paginaActual * filasPorPagina && i < filas.length;
+    i++
+  ) {
+    filas[i].style.display = "";
+  }
+
+  // Actualizar los botones de paginación
+  const anterior = document.getElementById("anterior");
+  const siguiente = document.getElementById("siguiente");
+
+  if (paginaActual === 1) {
+    anterior.disabled = true;
+  } else {
+    anterior.disabled = false;
+  }
+
+  if (paginaActual === Math.ceil(filas.length / filasPorPagina)) {
+    siguiente.disabled = true;
+  } else {
+    siguiente.disabled = false;
+  }
+};
+
+mostrarPaginacion();
+
+document.getElementById("anterior").addEventListener("click", () => {
+  paginaActual--;
+  mostrarPaginacion();
+});
+
+document.getElementById("siguiente").addEventListener("click", () => {
+  paginaActual++;
+  mostrarPaginacion();
+});
+
+
+</script>

@@ -1,0 +1,356 @@
+<script>
+  var nFilas = 0; 
+	window.onload = function iniciar() {
+
+         $('[data-toggle="tooltip"]').tooltip();
+        google.script.run.withSuccessHandler(crearTabla).request("Abierto","En proceso");
+
+        //datos de sesión de usuario
+        google.script.run.withSuccessHandler(inicio).allValues();
+      }
+      
+      
+//Esta función carga el nombre del usuario que inicia sesion
+function inicio(datos) {
+
+	$("#username").html(datos.name);
+
+}
+
+//Botones
+document.getElementById("btnRefres").onclick = actualizar;
+document.getElementById("btbuscar").onclick = fnbuscar;
+
+//inputs
+
+document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('input[type=text]').forEach( node => node.addEventListener('keypress', e => {
+        if(e.keyCode == 13) {
+          e.preventDefault();
+        }
+      }))
+    });
+
+document.getElementById("solicitud").addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      document.getElementById("btbuscar").click()
+    }
+});
+
+document.getElementById("fechaini").addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      document.getElementById("btbuscar").click()
+    }
+});
+
+document.getElementById("fechafin").addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      document.getElementById("btbuscar").click()
+    }
+});
+
+function actualizar(){
+
+  //Mostramos los puntos de carga
+  var divTabla = document.getElementById("arreglo").innerHTML = `<div class="text-center" style="margin-top:60px">
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm"         role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                </div>`
+
+  google.script.run.withSuccessHandler(crearTabla).request("Abierto","En proceso");
+}
+
+
+var cod = document.getElementById("solicitud");
+
+    cod.addEventListener("input", disable);
+
+    //Deshabilita la fecha cuando se busca por el el código
+    function disable() {
+
+        var cod = document.getElementById("solicitud").value;
+        var fechaIni = document.getElementById("fechaini");
+        var fechaFin = document.getElementById("fechafin");
+
+        if (cod.length > 0) {
+            fechaIni.setAttribute("readonly", "readonly");
+            fechaFin.setAttribute("readonly", "readonly");
+            fechaIni.value = "";
+            fechaFin.value = "";
+
+
+        } else {
+
+            fechaIni.removeAttribute('readonly');
+            fechaFin.removeAttribute('readonly');
+
+        }
+    }
+       
+
+
+//Realiza busqueda por rangos de fechas y por código
+    function fnbuscar() {
+
+        var fechaini = document.getElementById("fechaini").value;
+        var fechafin = document.getElementById("fechafin").value;
+        var codigo = document.getElementById("solicitud").value;
+
+        //Mostramos los puntos de carga
+        var divTabla = document.getElementById("arreglo").innerHTML = `<div class="text-center" style="margin-top:60px">
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                  <div class="spinner-grow text-dark spinner-grow-sm" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div>
+                                                                </div>`
+
+        google.script.run.withSuccessHandler(crearTabla).info(codigo, fechaini, fechafin);
+
+    }
+
+
+
+
+      //Se crea tabla principal
+    function crearTabla(dato) {
+        nFilas = dato.length
+
+        console.log("estos son los datos "+dato)
+
+        if (typeof dato !== 'undefined' && dato.length > 0) {
+
+            var n = dato[0].length-1;
+            var encabezados = ["Fecha Ticket", "Ticket","Estado","Correo", 
+                               "Nombre","Tipo Solicitud","Descripción"];
+            var tabla =  "<table id=\"tab\" class=\"table table-hover table-dark  \">";
+            
+
+                //ENCABEZADO
+            tabla += "<tr>";
+            for (var k = 0; k < encabezados.length; k++) {
+                tabla += "<th class=\"tdencabezado\">" + encabezados[k] + "</th>";
+            }
+            tabla += "</tr>";
+           // tabla += "</thead>";
+
+
+            //CUERPO 
+            for (var i = 0; i < dato.length ; i++) {
+
+               
+
+                tabla += "<tbody>"
+              tabla += "<tr id=\"fila" + i + "\" onclick=\"seleccion('"+dato[i][1].toString()+"')\">"
+                // var longitud = 7;
+
+                for (var j = 0; j < dato[0].length; j++) {
+
+                if(j==2){
+
+                    tabla += `<td class="tdcuerpo" id=\"fc${i}"\">
+                                <select style="min-width:120px" class="custom-select" id="status${i}" onchange="changeStatus('${dato[i][n].toString()}','status${i}','fila${i}')">
+                                  <option>Abierto</option>
+                                  <option>En proceso</option>
+                                  <option>Cancelado</option>
+                                  <option>Resuelto</option>
+                                </select>
+                              </td>`;
+
+                  }else{
+                  
+                    tabla += "<td class=\"tdcuerpo\" style=\"cursor:pointer;\" data-toggle=\"modal\" data-target=\"#obsModal\" id=\"fc" + i + "\">" + dato[i][j].toString() + "</td>";
+
+                  }
+                }
+                tabla += "</tr>";
+                tabla += "</tbody>";
+            }
+            tabla += "</table>"; 
+
+           tabla += `<div id="paginacion">
+  <button id="anterior">Anterior</button>
+  <button id="siguiente">Siguiente</button>
+</div>`;   
+ 
+
+
+            var cuerpo = document.getElementById("arreglo");
+           // document.getElementById("spinnerPpal").style.display = "none";
+            cuerpo.innerHTML = tabla;
+            
+            for(i=0;i<dato.length;i++){
+              var idSelect = "status" + i;
+              document.getElementById(idSelect).value = dato[i][2];
+            }
+
+
+        } else {
+
+            var cuerpo = document.getElementById("arreglo");
+          //  document.getElementById("spinnerPpal").style.display = "none";
+            cuerpo.innerHTML = "<br><h3>No se encontraron resultados<br><br><i class=\"fas fa-heart-broken imgTabla\"></i></h3>";
+
+        }
+        
+    }
+
+
+    
+//Trae toda la información al modal
+function seleccion(id){
+
+  //Traemos la info al modal
+  document.getElementById("tituloModal").innerHTML= `Observaciones ticket # ${id}`;
+  document.getElementById("btnObs").innerHTML= `<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarModal" onclick="actObs()">Cerrar</button><button type="button" class="btn btn-primary" onclick="saveObs('${id}')">Guardar</button>`
+
+  //traemos los comentarios realizados y ejecutamos la funcion que genera las listas
+  google.script.run.withSuccessHandler(listaObs).observaciones(id);
+  
+}
+
+//Permite realizar una lista con las observaciones del ticket
+function listaObs(dataObs){
+
+  console.log('lista de observaciones '+dataObs)
+
+  //Evaluamos si hay observaciones
+  if(dataObs.length != 0){
+    var lista = ""
+
+    //Generamos la lista de observaciones
+    for(i=0;i<dataObs.length;i++){
+      
+      if(dataObs[i][3] == ""){
+        lista += `<li class="list-group-item">${dataObs[i][1]} - ${dataObs[i][2]}: ${dataObs[i][0]}</li>`  
+      }else{
+         lista += `<li class="list-group-item" style="padding:0;"><div style="margin:0" class="alert alert-info" role="alert">
+                    ${dataObs[i][1]} - ${dataObs[i][2]}: ${dataObs[i][0]}
+                  </div></li>` 
+      }
+    }
+    document.getElementById("listaObs").innerHTML = lista;
+
+  //Colocamos una advertencia  
+  }else{
+    var adver = `<div class="alert alert-warning" style="margin-bottom:0px" role="alert">No se han realizado observaciones</div>`
+    document.getElementById("listaObs").innerHTML = adver;
+  }
+
+  //document.getElementById("modalOBS").innerHTML = modalOBS;
+}
+
+//lleva la observacion al client-side para que la almacene
+function saveObs(id){
+  var obs = document.getElementById("textObs").value;
+  if(obs == ""){
+    alertaObs()
+  }else{
+    google.script.run.obsToDB(obs,id);
+    successObs()
+    document.getElementById("cerrarModal").click()
+    document.getElementById("textObs").value = "";
+    actObs()
+  }
+}
+
+//coloca un spinner que da la sensación de actualizar
+function actObs(){
+  document.getElementById("listaObs").innerHTML = `<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>`
+}
+
+function alertaObs(){
+
+  toastr["error"]("Por favor realice la observación para poder continuar", "Campo vacio")
+
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+}
+
+function successObs(){
+  toastr["success"]("La observación se realizó exitosamente.", "Observación realizada")
+
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+
+}
+
+function changeStatus(idSol, idStatus, idFila){
+  var estado = document.getElementById(idStatus).value;
+  if(estado == "Resuelto" || estado == "Cancelado"){
+
+    var count = 0
+    for(i=0;i<nFilas;i++){
+      var fila = document.getElementById("fila"+i).style.display
+      if(fila == "none"){
+        count+=1
+      }
+    }
+    
+    if(count == nFilas-1){
+      var cuerpo = document.getElementById("arreglo");
+      cuerpo.innerHTML = "<br><h3>No se encontraron resultados<br><br><i class=\"fas fa-heart-broken imgTabla\"></i></h3>";
+    }else{
+      document.getElementById(idFila).style.display = "none";
+    }
+
+  }
+  google.script.run.statusToDB(idSol,estado)
+}
+
+
+
+</script>
