@@ -1,9 +1,8 @@
 //Recibe un estado y devuelve una matriz con los datos de cada fila
-function request(estado1,estado2) {
+function request() {
   
-
-  // var estado1="Abierto";
-  // var estado2 = "En proceso"
+ try{
+  
   var spreadsheet = SpreadsheetApp.openById(ssId);
   var sheeta = spreadsheet.getSheetByName(respuestas);
   var LastR = sheeta.getLastRow();
@@ -19,26 +18,23 @@ function request(estado1,estado2) {
  // var sesionActiva = "esanchez@sedic.com.co";
 
  
+  for (let i = 1; i <= longitud.length; i++) {
 
-  for (var i = 1; i <= longitud.length; i++) {
-
-    let fechaTicket = datos[i][0];
-    let ticket = generadorId();
-    let estadoBack = datos[i][2];
-    let correo = datos[i][3];
-    let nombre = datos[i][4];
-    let tipoSolicitud = datos[i][7];
-    let descripcion = datos[i][9];
+    const fechaTicket = datos[i][0];
+    const ticket = datos[i][1];
+    const estadoBack = datos[i][2];
+    const correo = datos[i][3];
+    const nombre = datos[i][4];
+    const tipoSolicitud = datos[i][7];
+    const descripcion = datos[i][9];
     
     
-  
-if (estadoBack == estado1 || estadoBack==estado2) {
 
     if (rolAdmon == "x") {
         
         sesionActiva = "";
-        let fechaTi = fechas(fechaTicket);
-        var fila = [fechaTi, ticket, estadoBack, correo,nombre,tipoSolicitud,descripcion];
+        const fechaTi = fechas(fechaTicket);
+        const fila = [fechaTi, ticket, estadoBack, correo,nombre,tipoSolicitud,descripcion];
         matriz.push(fila);
         Logger.log("Ingresó admon")
 
@@ -46,23 +42,28 @@ if (estadoBack == estado1 || estadoBack==estado2) {
       }else if(rolAP == "x" && estadoBack == "Resuelto") {
         
         sesionActiva = "";
-        let fechaTick = fechas(fechaTicket);
-        var fila =  [fechaTi, ticket, estadoBack, correo,nombre,tipoSolicitud,descripcion];
+        const fechaTick = fechas(fechaTicket);
+        const fila =  [fechaTi, ticket, estadoBack, correo,nombre,tipoSolicitud,descripcion];
         matriz.push(fila);
         Logger.log("Ingresó aprobador")
 
       }else if(gestor == sesionActiva){
 
-       let fechaTick = fechas(fechaTicket);
-        var fila =  [fechaTi, ticket, estadoBack, correo,nombre,tipoSolicitud,descripcion];
+        const fechaTick = fechas(fechaTicket);
+        const fila =  [fechaTi, ticket, estadoBack, correo,nombre,tipoSolicitud,descripcion];
         matriz.push(fila);
-        Logger.log("Ingreso sesion")
+       
       }
-    }
+    
 
   }
    Logger.log(matriz);
-  return matriz;
+  return {datos:matriz,status:200,message:'Ok'}; 
+
+}catch(error){
+  Logger.log('Error en la función request: ' + error.message);
+  return { status: 500, message: 'Error interno del servidor: ' + error.message };
+}
 
 }
 
@@ -143,38 +144,49 @@ function obsToDB(obs,id,ap){
 }
 
 //permite llevar el primer esatdo a la BD
-function statusToDB(idSol,estado){
+function statusToDB(idSol,estado){ 
+
+  let response = {};
   var ss = SpreadsheetApp.openById(ssId);
   var dataBase = ss.getSheetByName(respuestas);
-  var datos = dataBase.getDataRange().getValues();
-  var index = 0;
+  var datos = dataBase.getDataRange().getValues(); 
+
+  console.log(datos)
+  console.log('estos son los datos')
+
+  // Validación básica de entrada
+  if (!idSol || !estado) {
+    throw new Error('Faltan parámetros necesarios: idSol y estado'); 
+    response.status = 404; 
+    response.msg = 'Faltan parámetros necesarios: idSol y estado'
+    return response;
+  }
+
+  let index = -1;
 
   for(i=0;i<datos.length;i++){
-    var id = datos[i][2];
+    var id = datos[i][1];
     if(id == idSol){
       index = i + 1;
       break
     }
+  } 
+
+  if (index === -1) {
+    throw new Error('ID no encontrado en la hoja de cálculo'); 
+
+    response.status = 404; 
+    response.msg = 'ID no encontrado en la base de datos' 
+    return response;
+
   }
 
-  if(estado == "Cancelado" || estado == "Resuelto"){
-    var fecha = new Date;
-    var fechaFor = Utilities.formatDate(fecha, SpreadsheetApp.getActive().getSpreadsheetTimeZone(), 'dd/MM/yyyy hh:mm:ss');
-    dataBase.getRange("R"+index).setValue(fechaFor);
+     
+      dataBase.getRange(index,3).setValue(estado); 
+      response.status = 200; 
+      response.msg = `El estado ${estado} se ha actualizado exitosamente`
+      return response;
 
-    //Colocamos el estado Global
-    if(estado == "Resuelto"){
-      dataBase.getRange("C"+index).setValue(estado);
-
-      //Enviamos el correo a los aprobadores notificando que hay tickets resueltos
-      // correoResuelto(index)
-    }
-
-  }else{
-    dataBase.getRange("R"+index).setValue("");
-  }
-
-  dataBase.getRange("O"+index).setValue(estado)
 }
 
 //Permite llevar el segundo estado a la BD
