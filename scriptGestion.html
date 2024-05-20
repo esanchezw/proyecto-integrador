@@ -79,7 +79,7 @@
 
     google.script.run
       .withSuccessHandler(Tcrearabla)
-      .request("Abierto", "En proceso");
+      .request();
   }
 
   var cod = document.getElementById("solicitud");
@@ -414,5 +414,19 @@
     }).statusToDB(idSol, estado);
 
    
-  }
+  } 
+
+ 
+/**
+ *Buscar dato en la tabla 
+ */
+$("#search").on("keyup", function() {
+  var value = $(this).val().toLowerCase();
+  $("#table tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  });
+});
+
+
+
 </script>

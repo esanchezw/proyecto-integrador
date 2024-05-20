@@ -1,346 +1,319 @@
 <style>
+  :root {
+    --color-primario: #02f2fe; /* Definir la variable --color-primario con un valor hexadecimal */
+    --color-btn-primary: #1f3850;
+  }
 
-:root {
-  --color-primario: #02F2FE; /* Definir la variable --color-primario con un valor hexadecimal */ 
-  --color-btn-primary: #1F3850;
-} 
+  .btn-primary {
+    background-color: var(--color-btn-primary) !important;
+  }
 
-.btn-primary{
-  background-color: var( --color-btn-primary) !important;
-}
+  .rotar:hover {
+    transition: 0.7s all;
+    transform: rotate(360deg);
+  }
 
-    .rotar:hover {
-            transition: .7s all;
-            transform: rotate(360deg);
-        }
-   
-   .containerNew {
-        margin: 0px 20px;
-    }
-    
-    .btnBuscar {
-        width: 40px;
-        height: 40px;
-        border-radius: 60px;
-        align-items: center;
-    }
-    
-    .tab {
-        margin: 10px 0px 10px 0px;
-        /* 40px arriba, 0px derecha, 30px abajo, 0px izquierda */
-    }
-    
-    .logo {
-        width: 100px;
-        height: 30px;
-    }
-    
+  .containerNew {
+    margin: 0px 20px;
+  }
+
+  .btnBuscar {
+    width: 40px;
+    height: 40px;
+    border-radius: 60px;
+    align-items: center;
+  }
+
+  .tab {
+    margin: 10px 0px 10px 0px;
+    /* 40px arriba, 0px derecha, 30px abajo, 0px izquierda */
+  }
+
+  .logo {
+    width: 100px;
+    height: 30px;
+  }
+
+  .titulo {
+    margin: 0 0 2px;
+    align-items: center;
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 462px) {
     .titulo {
-        margin: 0 0 2px;
-        align-items: center;
-        font-size: 20px;
     }
-    
-    @media screen and (max-width: 462px) {
-        .titulo {}
-        .logo {
-            width: 60px;
-            height: 20px;
-        }
-        .userData {
-            display: flex;
-            justify-content: center !important;
-            text-align: center !important;
-        }
-        .divData {
-            display: flex;
-            justify-content: center !important;
-        }
-        .userIcon {
-            display: none;
-        }
+    .logo {
+      width: 60px;
+      height: 20px;
     }
-    
-    .navcolor {
-        background-color: #1F3850;
-    }
-    
-    .navlinks{
-      font-size: 18px;
-      color: white !important;
-    }
-    
-    .navlinks:hover {
-        font-weight: 400;
-        text-decoration: underline;
-    }
-    
-    .titulo_form {
-        padding: 20px;
-        padding-top: 0;
-        text-align: center;
-    }
-    
-    .formuario_crear {
-        padding: 0 20px;
-    }
-    
-    .divSubmit {
-        position: relative;
-        bottom: 0;
-        padding-top: 20px;
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-    footer {
-  background-color: black;
-  position: absolute;
-  
-    }
-    
-    .submitGD {
-        background-color:#010302;
-        border-color: none;
-        color: white;
-    }
-    
-    
-    
-    .submitGD:hover {
-        background-color:var(--color-primario);
-        border-color: none;
-    }
-    
-    
-    
-    .submitGD:focus {
-        box-shadow: none;
-    }
-    
-     .submitGD:active {
-            transform: scale(0.8);
-        }
-    
-    .arriba {
-        position: absolute;
-        right: 0;
-    }
-    
-    .label {
-        text-align: center;
-    }
-    
-    .imputcenter {
-        text-align: center;
-    }
-    
-    .divAdd {
-        padding-top: 32px;
-    }
-    
-    .borrarFila {
-        border-color: transparent;
-        background-color: transparent;
-        color:var(--color-primario);
-    }
-    
-    .imgTabla {
-        font-size: 60px;
-    }
-    
-    .tablas {
-        margin: 15px 15px;
-    }
-    
-    .rowdev {
-        padding-top: 50px;
-    }
-    
-    .coldev {
-        display: flex;
-        justify-content: center;
-    }
-    
-    .col-4 {
-        display: flex;
-        justify-content: center;
-    }
-    
-    .col-8 {
-        display: flex;
-        justify-content: center;
-    }
-    
-    .labelbuscar {
-        margin: auto;
-    }
-    
-    input::-webkit-input-placeholder {
-        font-size: small;
-    }
-    
-    .labelttablas {
-        font-size: 30px;
-    }
-    
-    .buscar {
-        display: flex;
-        justify-content: flex-end;
-    }
-    
-    .divBtnNotSol {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 10px;
-    }
-    
-    .divData {
-        padding-top: 20px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-    }
-    
     .userData {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding-right: 5px;
-        text-align: end;
+      display: flex;
+      justify-content: center !important;
+      text-align: center !important;
     }
-    
+    .divData {
+      display: flex;
+      justify-content: center !important;
+    }
     .userIcon {
-        font-size: 40px;
-        color: #8ebd41;
-        padding: 4px 0;
+      display: none;
     }
-    
-    .tablaBusqueda{
-      display:flex;
-      align-items: center;
-      margin: 0px;
-    }
+  }
 
-    .anadirBusqueda{
-      display:flex;
-      align-items: center;
-    }
+  .navcolor {
+    background-color: #1f3850;
+  }
 
-.btnPage:focus {
-        box-shadow: none;
-    }
-    
- .btnPage:active {
-            transform: scale(0.8);
-        }
-        
-         tr:hover td {
-      color: var(--color-primario);
-    }
-        
-    
-    
-     .tdencabezado {
-       background-color: #1F3850;
-       
-       
-    }
-    
-    .tdcuerpo {
-        text-align: center;
-        background-color: #010302;
-        color: #DBDBDB;
-       
-    }
-    
+  .navlinks {
+    font-size: 18px;
+    color: white !important;
+  }
+
+  .navlinks:hover {
+    font-weight: 400;
+    text-decoration: underline;
+  }
+
+  .titulo_form {
+    padding: 20px;
+    padding-top: 0;
+    text-align: center;
+  }
+
+  .formuario_crear {
+    padding: 0 20px;
+  }
+
+  .divSubmit {
+    position: relative;
+    bottom: 0;
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  footer {
+    background-color: black;
+    position: absolute;
+  }
+
+  .submitGD {
+    background-color: #010302;
+    border-color: none;
+    color: white;
+  }
+
+  .submitGD:hover {
+    background-color: var(--color-primario);
+    border-color: none;
+  }
+
+  .submitGD:focus {
+    box-shadow: none;
+  }
+
+  .submitGD:active {
+    transform: scale(0.8);
+  }
+
+  .arriba {
+    position: absolute;
+    right: 0;
+  }
+
+  .label {
+    text-align: center;
+  }
+
+  .imputcenter {
+    text-align: center;
+  }
+
+  .borrarFila {
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--color-primario);
+  }
+
+  .imgTabla {
+    font-size: 60px;
+  }
+
+  .tablas {
+    margin: 15px 15px;
+  }
+
+  .rowdev {
+    padding-top: 50px;
+  }
+
+  .coldev {
+    display: flex;
+    justify-content: center;
+  }
+
+  .col-4 {
+    display: flex;
+    justify-content: center;
+  }
+
+  .col-8 {
+    display: flex;
+    justify-content: center;
+  }
+
+  .labelbuscar {
+    margin: auto;
+  }
+
+  input::-webkit-input-placeholder {
+    font-size: small;
+  }
+
+  .labelttablas {
+    font-size: 30px;
+  }
+
+  .buscar {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .divBtnNotSol {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .divData {
+    padding-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .userData {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-right: 5px;
+    text-align: end;
+  }
+
+  .userIcon {
+    font-size: 40px;
+    color: #8ebd41;
+    padding: 4px 0;
+  }
+
+  .tablaBusqueda {
+    display: flex;
+    align-items: center;
+    margin: 0px;
+  }
+
+  .anadirBusqueda {
+    display: flex;
+    align-items: center;
+  }
+
+  .btnPage:focus {
+    box-shadow: none;
+  }
+
+  .btnPage:active {
+    transform: scale(0.8);
+  }
+
+  tr:hover td {
+    color: var(--color-primario);
+  }
+
+  .tdencabezado {
+    background-color: #1f3850;
+  }
+
+  .tdcuerpo {
+    text-align: center;
+    background-color: #010302;
+    color: #dbdbdb;
+  }
+
   .icono {
-        border-color: transparent;
-        background-color: transparent;
-        color:var(--color-primario);
-        font-size: 30px;
-        padding: 4px 0;
-    }
-    
-    .margen {
-    padding-right: 10px;
-   
-}
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--color-primario);
+    font-size: 30px;
+    padding: 4px 0;
+  }
 
-.dropdown-menu {
+  .margen {
+    padding-right: 10px;
+  }
+
+  .dropdown-menu {
     padding-right: 30%;
     min-width: 0px;
     *background-color: transparent;
     border: 0px;
     margin-top: 13px;
     float: none;
-     
-    
-}
+  }
 
-.dropdown-item {
+  .dropdown-item {
     padding-left: 7px;
     *line-height: 0px;
-}
+  }
 
-.jumbotron {
+  .jumbotron {
     background-color: white;
     margin-top: 30px;
     margin-bottom: 50px;
     color: black;
-    height: 20px ;
-    
- }
+    height: 20px;
+  }
 
- .div_tarifa{
-   display: flex;
-   margin-bottom: 20px;
- }
+  .div_tarifa {
+    display: flex;
+    margin-bottom: 20px;
+  }
 
- .obs_tarifa{
-   margin-left:25px;
- }
+  .obs_tarifa {
+    margin-left: 25px;
+  }
 
- .img_tarifa{
-   min-width: 60%;
-   width: 60%
- }
+  .img_tarifa {
+    min-width: 60%;
+    width: 60%;
+  }
 
-
-/*.barraBuscar{
+  /*.barraBuscar{
 
 background-color: #343a40;
 
 }
 */
-.barraBuscar{
+  .barraBuscar {
+    padding: 15px 10px 0 10px;
+    background-color: #1f3850;
+    border-radius: 4px;
+    /* 40px arriba, 0px derecha, 30px abajo, 0px izquierda */
+  }
 
-padding: 10px 20px ;
-background-color: #1F3850;
- margin: 0px 4px ;
- margin-bottom: 20px;
- border-radius: 8px;
-        /* 40px arriba, 0px derecha, 30px abajo, 0px izquierda */
-}
+  .segObs {
+    color: black !important;
+    padding-left: 0;
+  }
 
-.segObs{
-   color: black !important;
-   padding-left: 0;
- }
+  .segObs:focus {
+    text-decoration: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
- .segObs:focus{
-   text-decoration:none !important;
-   outline: none !important;
-   box-shadow:none !important;
- }
-
- .segObs:hover{
-   text-decoration:none;
-   font-weight: 600;
-
- }
-
- 
-    
-    
+  .segObs:hover {
+    text-decoration: none;
+    font-weight: 600;
+  }
 </style>
