@@ -8,7 +8,9 @@
 
     //datos de sesión de usuario
     google.script.run.withSuccessHandler(inicio).allValues();
-  };
+  }; 
+
+  
 
   //Esta función carga el nombre del usuario que inicia sesion
   function inicio(datos) {
@@ -172,7 +174,7 @@
 
       //CUERPO
       for (var i = 0; i < dato.length; i++) {
-        tabla += "<tbody>";
+        tabla += `<tbody id="miTabla">`;
         tabla +=
           '<tr id="fila' +
           i +
@@ -215,12 +217,41 @@
         var idSelect = "status" + i;
         document.getElementById(idSelect).value = dato[i][2];
       }
+
+      let buscar = document.getElementById("inputBuscar");
+      buscar.innerHTML = `  <div class="input-group mb-3" >
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"
+                  ><i class="fas fa-search"></i
+                ></span>
+              </div>
+
+              <input
+                type="text"
+                id="searchInput"
+                class="form-control"
+                placeholder="Buscar..."
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+              />
+            </div>`;
+            /**
+ *Buscar dato en la tabla 
+ */
+$("#searchInput").on("keyup", function() {
+  const value = $(this).val().toLowerCase(); 
+ 
+  $("#miTabla tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  });
+}); 
     } else {
       var cuerpo = document.getElementById("arreglo");
       //  document.getElementById("spinnerPpal").style.display = "none";
       cuerpo.innerHTML =
         '<br><h3>No se encontraron resultados<br><br><i class="fas fa-heart-broken imgTabla"></i></h3>';
-    } 
+    }  
+
   }else{
     var cuerpo = document.getElementById("arreglo");
       //  document.getElementById("spinnerPpal").style.display = "none";
@@ -417,16 +448,40 @@
   } 
 
  
-/**
- *Buscar dato en la tabla 
- */
-$("#search").on("keyup", function() {
-  var value = $(this).val().toLowerCase();
-  $("#table tr").filter(function() {
-    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-  });
-});
 
+
+
+function buscarEnTabla() {
+            // Obtener el valor del input
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toLowerCase();
+            // Obtener la tabla y el cuerpo de la tabla
+            let table = document.getElementById('miTabla');
+            let tbody = table.getElementsByTagName('tbody')[0];
+            // Obtener todas las filas del cuerpo de la tabla
+            let rows = tbody.getElementsByTagName('tr');
+
+            // Recorrer todas las filas
+            for (let i = 0; i < rows.length; i++) {
+                let row = rows[i];
+                // Obtener todas las celdas de la fila
+                let cells = row.getElementsByTagName('td');
+                let rowContainsFilter = false;
+
+                // Recorrer todas las celdas
+                for (let j = 0; j < cells.length; j++) {
+                    let cell = cells[j];
+                    // Si la celda contiene el texto buscado, mostrar la fila y salir del bucle
+                    if (cell.textContent.toLowerCase().includes(filter)) {
+                        rowContainsFilter = true;
+                        break;
+                    }
+                }
+
+                // Mostrar u ocultar la fila según si contiene el texto buscado
+                row.style.display = rowContainsFilter ? '' : 'none';
+            }
+        }
 
 
 </script>
